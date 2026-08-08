@@ -1,0 +1,21 @@
+# UHC 플러그인 설정
+
+border:
+  # 게임 시작 시 초기 월드 보더 크기 (지름, 블록)
+  initial-size: 2000
+  # 최종 월드 보더 크기 (지름, 블록)
+  final-size: 10
+  # 게임 시작 후 보더 축소가 시작되는 시간 (분)
+  shrink-start-min: 10
+  # 축소가 완료되기까지 걸리는 시간 (분)
+  shrink-duration-min: 30
+
+game:
+  # 시작 카운트다운 시간 (초)
+  countdown-seconds: 10
+  # 킬 시 골든 애플 지급 여부
+  kill-reward-golden-apple: true
+  # 스캐터 반경 (보더 초기 크기 절반보다 작아야 함, 블록)
+  scatter-radius: 900
+  # 스캐터 최소 이격 거리 (블록)
+  scatter-min-distance: 100
