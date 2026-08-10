@@ -24,6 +24,9 @@ public class UHCPlugin extends JavaPlugin {
         // 이벤트 리스너 등록
         getServer().getPluginManager().registerEvents(new GameListener(gameManager), this);
 
+        // 커스텀 레시피 등록
+        RecipeManager.registerRecipes(this);
+
         getLogger().info("UHC 플러그인이 활성화되었습니다! (Paper 26.2)");
     }
 

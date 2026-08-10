@@ -417,6 +417,28 @@ public class GameManager {
         p.setExp(0f);
         p.getInventory().clear();
         p.getInventory().setArmorContents(new ItemStack[4]);
+
+        // 기본 아이템 지급 (돌 도구 + 효율 2, 검은 날카로움 1, 조합법 책)
+        org.bukkit.inventory.ItemStack sword = new org.bukkit.inventory.ItemStack(Material.STONE_SWORD);
+        sword.addUnsafeEnchantment(org.bukkit.enchantments.Enchantment.SHARPNESS, 1);
+        
+        org.bukkit.inventory.ItemStack pickaxe = new org.bukkit.inventory.ItemStack(Material.STONE_PICKAXE);
+        pickaxe.addUnsafeEnchantment(org.bukkit.enchantments.Enchantment.EFFICIENCY, 2);
+        
+        org.bukkit.inventory.ItemStack axe = new org.bukkit.inventory.ItemStack(Material.STONE_AXE);
+        axe.addUnsafeEnchantment(org.bukkit.enchantments.Enchantment.EFFICIENCY, 2);
+        
+        org.bukkit.inventory.ItemStack shovel = new org.bukkit.inventory.ItemStack(Material.STONE_SHOVEL);
+        shovel.addUnsafeEnchantment(org.bukkit.enchantments.Enchantment.EFFICIENCY, 2);
+
+        org.bukkit.inventory.ItemStack recipeBook = new org.bukkit.inventory.ItemStack(Material.BOOK);
+        org.bukkit.inventory.meta.ItemMeta bookMeta = recipeBook.getItemMeta();
+        if (bookMeta != null) {
+            bookMeta.setDisplayName(ChatColor.GOLD + "조합법");
+            recipeBook.setItemMeta(bookMeta);
+        }
+
+        p.getInventory().addItem(sword, pickaxe, axe, shovel, recipeBook);
         
         // 게임 시작 시 최대 체력 설정
         try {
@@ -463,6 +485,7 @@ public class GameManager {
             w.getWorldBorder().reset();
         }
         applyGameRules(false);
+        RecipeManager.resetCrafts(); // 커스텀 아이템 제작 횟수 초기화
     }
 
     // =========================================================
@@ -554,11 +577,61 @@ public class GameManager {
             if (p.getAbsorptionAmount() > 0) {
                 p.setAbsorptionAmount(0.0);
             }
+            // 과도기 검/활 개량
+            upgradeApprenticeSword(p, 1);
+            upgradeApprenticeBow(p, 1);
         }
+
+        // 15분 후 견습용 활 힘 II 업그레이드
+        Bukkit.getScheduler().runTaskLater(plugin, () -> {
+            if (state != GameState.RUNNING) return;
+            for (Player online : Bukkit.getOnlinePlayers()) {
+                upgradeApprenticeBow(online, 2);
+            }
+        }, 15L * 60L * 20L);
+
+        // 25분 후 날카로움 II, 힘 III 업그레이드
+        Bukkit.getScheduler().runTaskLater(plugin, () -> {
+            if (state != GameState.RUNNING) return;
+            for (Player online : Bukkit.getOnlinePlayers()) {
+                upgradeApprenticeSword(online, 2);
+                upgradeApprenticeBow(online, 3);
+            }
+        }, 25L * 60L * 20L);
 
         // 보더 축소 시작
         World mainWorld = Bukkit.getWorlds().get(0);
         startBorderShrinkTask(mainWorld);
+    }
+
+    private void upgradeApprenticeSword(Player p, int level) {
+        for (ItemStack item : p.getInventory().getContents()) {
+            if (item == null || item.getItemMeta() == null) continue;
+            if (item.getItemMeta().getDisplayName().contains(RecipeManager.SWORD_TAG)) {
+                item.addUnsafeEnchantment(org.bukkit.enchantments.Enchantment.SHARPNESS, level);
+                String lvlName = level == 1
+                    ? ChatColor.YELLOW + "날카로움 I"
+                    : ChatColor.GOLD + "날카로움 II";
+                p.sendMessage(ChatColor.AQUA + "⚡ 견습용 검에 " + lvlName
+                    + ChatColor.WHITE + "이 부여되었습니다!");
+                p.updateInventory();
+            }
+        }
+    }
+
+    private void upgradeApprenticeBow(Player p, int level) {
+        for (ItemStack item : p.getInventory().getContents()) {
+            if (item == null || item.getItemMeta() == null) continue;
+            if (item.getItemMeta().getDisplayName().contains(RecipeManager.BOW_TAG)) {
+                item.addUnsafeEnchantment(org.bukkit.enchantments.Enchantment.POWER, level);
+                String lvlName = level == 1
+                    ? ChatColor.YELLOW + "힘 I"
+                    : (level == 2 ? ChatColor.GOLD + "힘 II" : ChatColor.RED + "힘 III");
+                p.sendMessage(ChatColor.AQUA + "⚡ 견습용 활에 " + lvlName
+                    + ChatColor.WHITE + "이 부여되었습니다!");
+                p.updateInventory();
+            }
+        }
     }
 
     private void startBorderShrinkTask(World world) {

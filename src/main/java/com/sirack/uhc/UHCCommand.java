@@ -131,6 +131,194 @@ public class UHCCommand implements CommandExecutor, TabCompleter {
                 }
             }
 
+            // ── 조합 ──────────────────────────────────────────
+            case "조합" -> {
+                if (!(sender instanceof Player)) {
+                    sender.sendMessage("플레이어만 사용할 수 있습니다.");
+                    return true;
+                }
+                if (args.length < 2) return true;
+                Player p = (Player) sender;
+                String recipe = args[1];
+
+                if (!gm.isRunning()) {
+                    p.sendMessage(PREFIX + ChatColor.RED + "커스텀 조합법은 게임 중에만 사용할 수 있습니다.");
+                    return true;
+                }
+
+                if (recipe.equals("apprentice_helmet")) {
+                    if (RecipeManager.getApprenticeCrafts(p.getUniqueId()) >= 1) {
+                        p.sendMessage(ChatColor.RED + "이미 견습용 투구를 제작했습니다.");
+                        return true;
+                    }
+                    if (hasItems(p.getInventory(), org.bukkit.Material.IRON_INGOT, 5) && 
+                        hasItems(p.getInventory(), org.bukkit.Material.REDSTONE_TORCH, 1)) {
+                        
+                        removeItems(p.getInventory(), org.bukkit.Material.IRON_INGOT, 5);
+                        removeItems(p.getInventory(), org.bukkit.Material.REDSTONE_TORCH, 1);
+                        
+                        org.bukkit.inventory.InventoryView view = p.openWorkbench(null, true);
+                        if (view != null && view.getTopInventory() instanceof org.bukkit.inventory.CraftingInventory) {
+                            org.bukkit.inventory.CraftingInventory craftInv = (org.bukkit.inventory.CraftingInventory) view.getTopInventory();
+                            org.bukkit.inventory.ItemStack[] matrix = new org.bukkit.inventory.ItemStack[9];
+                            matrix[0] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.IRON_INGOT, 1);
+                            matrix[1] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.IRON_INGOT, 1);
+                            matrix[2] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.IRON_INGOT, 1);
+                            matrix[3] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.IRON_INGOT, 1);
+                            matrix[4] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.REDSTONE_TORCH, 1);
+                            matrix[5] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.IRON_INGOT, 1);
+                            craftInv.setMatrix(matrix);
+                        }
+                    } else {
+                        p.sendMessage(PREFIX + ChatColor.RED + "재료가 부족합니다.");
+                    }
+                } else if (recipe.equals("apprentice_sword")) {
+                    if (RecipeManager.getSwordCrafts(p.getUniqueId()) >= 1) {
+                        p.sendMessage(ChatColor.RED + "이미 견습용 검을 제작했습니다.");
+                        return true;
+                    }
+                    if (hasItems(p.getInventory(), org.bukkit.Material.IRON_SWORD, 1) && 
+                        hasItems(p.getInventory(), org.bukkit.Material.REDSTONE_BLOCK, 2)) {
+                        
+                        removeItems(p.getInventory(), org.bukkit.Material.IRON_SWORD, 1);
+                        removeItems(p.getInventory(), org.bukkit.Material.REDSTONE_BLOCK, 2);
+                        
+                        org.bukkit.inventory.InventoryView view = p.openWorkbench(null, true);
+                        if (view != null && view.getTopInventory() instanceof org.bukkit.inventory.CraftingInventory) {
+                            org.bukkit.inventory.CraftingInventory craftInv = (org.bukkit.inventory.CraftingInventory) view.getTopInventory();
+                            org.bukkit.inventory.ItemStack[] matrix = new org.bukkit.inventory.ItemStack[9];
+                            matrix[1] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.REDSTONE_BLOCK, 1);
+                            matrix[4] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.IRON_SWORD, 1);
+                            matrix[7] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.REDSTONE_BLOCK, 1);
+                            craftInv.setMatrix(matrix);
+                        }
+                    } else {
+                        p.sendMessage(PREFIX + ChatColor.RED + "재료가 부족합니다.");
+                    }
+                } else if (recipe.equals("apprentice_bow")) {
+                    if (RecipeManager.getBowCrafts(p.getUniqueId()) >= 1) {
+                        p.sendMessage(ChatColor.RED + "이미 견습용 활을 제작했습니다.");
+                        return true;
+                    }
+                    if (hasItems(p.getInventory(), org.bukkit.Material.STRING, 3) && 
+                        hasItems(p.getInventory(), org.bukkit.Material.REDSTONE_TORCH, 3)) {
+                        
+                        removeItems(p.getInventory(), org.bukkit.Material.STRING, 3);
+                        removeItems(p.getInventory(), org.bukkit.Material.REDSTONE_TORCH, 3);
+                        
+                        org.bukkit.inventory.InventoryView view = p.openWorkbench(null, true);
+                        if (view != null && view.getTopInventory() instanceof org.bukkit.inventory.CraftingInventory) {
+                            org.bukkit.inventory.CraftingInventory craftInv = (org.bukkit.inventory.CraftingInventory) view.getTopInventory();
+                            org.bukkit.inventory.ItemStack[] matrix = new org.bukkit.inventory.ItemStack[9];
+                            // " RS", "R S", " RS"
+                            matrix[1] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.REDSTONE_TORCH, 1);
+                            matrix[2] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.STRING, 1);
+                            matrix[3] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.REDSTONE_TORCH, 1);
+                            matrix[5] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.STRING, 1);
+                            matrix[7] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.REDSTONE_TORCH, 1);
+                            matrix[8] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.STRING, 1);
+                            craftInv.setMatrix(matrix);
+                        }
+                    } else {
+                        p.sendMessage(PREFIX + ChatColor.RED + "재료가 부족합니다.");
+                    }
+                } else if (recipe.equals("master_compass")) {
+                    if (RecipeManager.getCompassCrafts(p.getUniqueId()) >= 1) {
+                        p.sendMessage(ChatColor.RED + "이미 마스터의 나침반을 제작했습니다.");
+                        return true;
+                    }
+                    if (hasItems(p.getInventory(), org.bukkit.Material.REDSTONE, 7) &&
+                        hasItems(p.getInventory(), org.bukkit.Material.COMPASS, 1) &&
+                        hasItems(p.getInventory(), org.bukkit.Material.REDSTONE_TORCH, 1)) {
+                        
+                        removeItems(p.getInventory(), org.bukkit.Material.REDSTONE, 7);
+                        removeItems(p.getInventory(), org.bukkit.Material.COMPASS, 1);
+                        removeItems(p.getInventory(), org.bukkit.Material.REDSTONE_TORCH, 1);
+                        
+                        org.bukkit.inventory.InventoryView view = p.openWorkbench(null, true);
+                        if (view != null && view.getTopInventory() instanceof org.bukkit.inventory.CraftingInventory) {
+                            org.bukkit.inventory.CraftingInventory craftInv = (org.bukkit.inventory.CraftingInventory) view.getTopInventory();
+                            org.bukkit.inventory.ItemStack[] matrix = new org.bukkit.inventory.ItemStack[9];
+                            // RTR / RCR / RRR
+                            matrix[0] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.REDSTONE, 1);
+                            matrix[1] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.REDSTONE_TORCH, 1);
+                            matrix[2] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.REDSTONE, 1);
+                            
+                            matrix[3] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.REDSTONE, 1);
+                            matrix[4] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.COMPASS, 1);
+                            matrix[5] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.REDSTONE, 1);
+                            
+                            matrix[6] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.REDSTONE, 1);
+                            matrix[7] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.REDSTONE, 1);
+                            matrix[8] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.REDSTONE, 1);
+                            craftInv.setMatrix(matrix);
+                        }
+                    } else {
+                        p.sendMessage(PREFIX + ChatColor.RED + "재료가 부족합니다.");
+                    }
+                } else if (recipe.equals("sharpness_book")) {
+                    if (RecipeManager.getSharpnessBookCrafts(p.getUniqueId()) >= 4) {
+                        p.sendMessage(ChatColor.RED + "이미 날카로움의 책을 최대치(4/4)로 제작했습니다.");
+                        return true;
+                    }
+                    if (hasItems(p.getInventory(), org.bukkit.Material.FLINT, 1) &&
+                        hasItems(p.getInventory(), org.bukkit.Material.PAPER, 3) &&
+                        hasItems(p.getInventory(), org.bukkit.Material.IRON_SWORD, 1)) {
+                        
+                        removeItems(p.getInventory(), org.bukkit.Material.FLINT, 1);
+                        removeItems(p.getInventory(), org.bukkit.Material.PAPER, 3);
+                        removeItems(p.getInventory(), org.bukkit.Material.IRON_SWORD, 1);
+                        
+                        org.bukkit.inventory.InventoryView view = p.openWorkbench(null, true);
+                        if (view != null && view.getTopInventory() instanceof org.bukkit.inventory.CraftingInventory) {
+                            org.bukkit.inventory.CraftingInventory craftInv = (org.bukkit.inventory.CraftingInventory) view.getTopInventory();
+                            org.bukkit.inventory.ItemStack[] matrix = new org.bukkit.inventory.ItemStack[9];
+                            // F  ,  PP,  PI
+                            matrix[0] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.FLINT, 1);
+                            
+                            matrix[4] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.PAPER, 1);
+                            matrix[5] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.PAPER, 1);
+                            
+                            matrix[7] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.PAPER, 1);
+                            matrix[8] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.IRON_SWORD, 1);
+                            craftInv.setMatrix(matrix);
+                        }
+                    } else {
+                        p.sendMessage(PREFIX + ChatColor.RED + "재료가 부족합니다.");
+                    }
+                } else if (recipe.equals("power_book")) {
+                    if (RecipeManager.getPowerBookCrafts(p.getUniqueId()) >= 4) {
+                        p.sendMessage(ChatColor.RED + "이미 힘의 책을 최대치(4/4)로 제작했습니다.");
+                        return true;
+                    }
+                    if (hasItems(p.getInventory(), org.bukkit.Material.FLINT, 1) &&
+                        hasItems(p.getInventory(), org.bukkit.Material.PAPER, 3) &&
+                        hasItems(p.getInventory(), org.bukkit.Material.BONE, 1)) {
+                        
+                        removeItems(p.getInventory(), org.bukkit.Material.FLINT, 1);
+                        removeItems(p.getInventory(), org.bukkit.Material.PAPER, 3);
+                        removeItems(p.getInventory(), org.bukkit.Material.BONE, 1);
+                        
+                        org.bukkit.inventory.InventoryView view = p.openWorkbench(null, true);
+                        if (view != null && view.getTopInventory() instanceof org.bukkit.inventory.CraftingInventory) {
+                            org.bukkit.inventory.CraftingInventory craftInv = (org.bukkit.inventory.CraftingInventory) view.getTopInventory();
+                            org.bukkit.inventory.ItemStack[] matrix = new org.bukkit.inventory.ItemStack[9];
+                            // F  ,  PP,  PB
+                            matrix[0] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.FLINT, 1);
+                            
+                            matrix[4] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.PAPER, 1);
+                            matrix[5] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.PAPER, 1);
+                            
+                            matrix[7] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.PAPER, 1);
+                            matrix[8] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.BONE, 1);
+                            craftInv.setMatrix(matrix);
+                        }
+                    } else {
+                        p.sendMessage(PREFIX + ChatColor.RED + "재료가 부족합니다.");
+                    }
+                }
+            }
+
             default -> sendHelp(sender);
         }
 
@@ -179,5 +367,32 @@ public class UHCCommand implements CommandExecutor, TabCompleter {
             }
         }
         return new ArrayList<>();
+    }
+
+    private boolean hasItems(org.bukkit.inventory.Inventory inv, org.bukkit.Material mat, int amount) {
+        int count = 0;
+        for (org.bukkit.inventory.ItemStack item : inv.getContents()) {
+            if (item != null && item.getType() == mat) {
+                count += item.getAmount();
+            }
+        }
+        return count >= amount;
+    }
+
+    private void removeItems(org.bukkit.inventory.Inventory inv, org.bukkit.Material mat, int amount) {
+        int toRemove = amount;
+        for (int i = 0; i < inv.getSize(); i++) {
+            org.bukkit.inventory.ItemStack item = inv.getItem(i);
+            if (item != null && item.getType() == mat) {
+                if (item.getAmount() <= toRemove) {
+                    toRemove -= item.getAmount();
+                    inv.setItem(i, null);
+                } else {
+                    item.setAmount(item.getAmount() - toRemove);
+                    toRemove = 0;
+                }
+                if (toRemove == 0) break;
+            }
+        }
     }
 }
