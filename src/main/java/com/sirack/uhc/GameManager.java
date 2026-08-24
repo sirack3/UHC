@@ -737,14 +737,21 @@ public class GameManager {
             );
         }
 
-        // 관전 모드로 전환 (1틱 후 – 사망 화면이 끝난 뒤)
+        // 사망한 위치 저장
+        org.bukkit.Location deathLoc = victim.getLocation();
+
+        // 즉시 부활 및 관전 모드로 전환 (10틱 후)
         Bukkit.getScheduler().runTaskLater(plugin, () -> {
             Player v = Bukkit.getPlayer(victim.getUniqueId());
             if (v != null && v.isOnline()) {
+                if (v.isDead()) {
+                    v.spigot().respawn();
+                }
+                v.teleport(deathLoc);
                 v.setGameMode(GameMode.SPECTATOR);
-                v.sendMessage(ChatColor.GRAY + "탈락했습니다. 관전 모드로 전환됩니다.");
+                v.sendMessage(ChatColor.GRAY + "탈락했습니다. 사망한 위치에서 관전 모드로 전환됩니다.");
             }
-        }, 20L);
+        }, 10L);
 
         // 승리 체크
         checkWin();
@@ -863,7 +870,7 @@ public class GameManager {
     private void applyGameRulesOnWorld(World world, boolean gameOn) {
         // GameRule 상수를 문자열로 찾아서 적용 (버전 호환성 극대화)
         String[] rules = {"naturalRegeneration", "showDeathMessages", "announceAdvancements", "locator_bar"};
-        boolean[] values = {!gameOn, !gameOn, !gameOn, !gameOn};
+        boolean[] values = {!gameOn, !gameOn, false, !gameOn};
 
         for (int i = 0; i < rules.length; i++) {
             try {

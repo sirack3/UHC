@@ -1,11 +1,11 @@
 name: UHC
-version: '1.8.1'
+version: '1.8.13'
 main: com.sirack.uhc.UHCPlugin
 api-version: '1.21'
 commands:
   유챔:
     description: UHC 메인 명령어
-    usage: /유챔 <시작|종료|테스트시작|테스트종료|월드보더>
+    usage: /유챔 <시작|종료|조합법|도감>
     permission: uhc.admin
 permissions:
   uhc.admin:

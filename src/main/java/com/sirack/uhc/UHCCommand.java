@@ -316,6 +316,565 @@ public class UHCCommand implements CommandExecutor, TabCompleter {
                     } else {
                         p.sendMessage(PREFIX + ChatColor.RED + "재료가 부족합니다.");
                     }
+                } else if (recipe.equals("dragon_sword")) {
+                    if (RecipeManager.getDragonSwordCrafts(p.getUniqueId()) >= 1) {
+                        p.sendMessage(ChatColor.RED + "이미 용의 검을 제작했습니다.");
+                        return true;
+                    }
+                    if (hasItems(p.getInventory(), org.bukkit.Material.BLAZE_POWDER, 2) &&
+                        hasItems(p.getInventory(), org.bukkit.Material.DIAMOND_SWORD, 1) &&
+                        hasItems(p.getInventory(), org.bukkit.Material.OBSIDIAN, 2)) {
+                        
+                        removeItems(p.getInventory(), org.bukkit.Material.BLAZE_POWDER, 2);
+                        removeItems(p.getInventory(), org.bukkit.Material.DIAMOND_SWORD, 1);
+                        removeItems(p.getInventory(), org.bukkit.Material.OBSIDIAN, 2);
+                        
+                        org.bukkit.inventory.InventoryView view = p.openWorkbench(null, true);
+                        if (view != null && view.getTopInventory() instanceof org.bukkit.inventory.CraftingInventory) {
+                            org.bukkit.inventory.CraftingInventory craftInv = (org.bukkit.inventory.CraftingInventory) view.getTopInventory();
+                            org.bukkit.inventory.ItemStack[] matrix = new org.bukkit.inventory.ItemStack[9];
+                            
+                            matrix[1] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.BLAZE_POWDER, 1);
+                            
+                            matrix[4] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.DIAMOND_SWORD, 1);
+                            
+                            matrix[6] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.OBSIDIAN, 1);
+                            matrix[7] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.BLAZE_POWDER, 1);
+                            matrix[8] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.OBSIDIAN, 1);
+                            craftInv.setMatrix(matrix);
+                        }
+                    } else {
+                        p.sendMessage(PREFIX + ChatColor.RED + "재료가 부족합니다.");
+                    }
+                } else if (recipe.equals("leather_saving")) {
+                    if (RecipeManager.getLeatherSavingCrafts(p.getUniqueId()) >= 3) {
+                        p.sendMessage(ChatColor.RED + "이미 가죽 절약을 최대치(3/3)로 제작했습니다.");
+                        return true;
+                    }
+                    if (hasItems(p.getInventory(), org.bukkit.Material.LEATHER, 3) &&
+                        hasItems(p.getInventory(), org.bukkit.Material.STICK, 6)) {
+
+                        removeItems(p.getInventory(), org.bukkit.Material.LEATHER, 3);
+                        removeItems(p.getInventory(), org.bukkit.Material.STICK, 6);
+
+                        org.bukkit.inventory.InventoryView view = p.openWorkbench(null, true);
+                        if (view != null && view.getTopInventory() instanceof org.bukkit.inventory.CraftingInventory) {
+                            org.bukkit.inventory.CraftingInventory craftInv = (org.bukkit.inventory.CraftingInventory) view.getTopInventory();
+                            org.bukkit.inventory.ItemStack[] matrix = new org.bukkit.inventory.ItemStack[9];
+                            matrix[0] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.STICK, 1);
+                            matrix[1] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.LEATHER, 1);
+                            matrix[2] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.STICK, 1);
+                            matrix[3] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.STICK, 1);
+                            matrix[4] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.LEATHER, 1);
+                            matrix[5] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.STICK, 1);
+                            matrix[6] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.STICK, 1);
+                            matrix[7] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.LEATHER, 1);
+                            matrix[8] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.STICK, 1);
+                            craftInv.setMatrix(matrix);
+                        }
+                    } else {
+                        p.sendMessage(PREFIX + ChatColor.RED + "재료가 부족합니다.");
+                    }
+                } else if (recipe.equals("dragon_armor")) {
+                    if (RecipeManager.getDragonArmorCrafts(p.getUniqueId()) >= 1) {
+                        p.sendMessage(ChatColor.RED + "이미 용의 갑옷을 제작했습니다.");
+                        return true;
+                    }
+                    if (hasItems(p.getInventory(), org.bukkit.Material.MAGMA_CREAM, 1) &&
+                        hasItems(p.getInventory(), org.bukkit.Material.DIAMOND_CHESTPLATE, 1) &&
+                        hasItems(p.getInventory(), org.bukkit.Material.OBSIDIAN, 2) &&
+                        hasItems(p.getInventory(), org.bukkit.Material.ANVIL, 1)) {
+
+                        removeItems(p.getInventory(), org.bukkit.Material.MAGMA_CREAM, 1);
+                        removeItems(p.getInventory(), org.bukkit.Material.DIAMOND_CHESTPLATE, 1);
+                        removeItems(p.getInventory(), org.bukkit.Material.OBSIDIAN, 2);
+                        removeItems(p.getInventory(), org.bukkit.Material.ANVIL, 1);
+
+                        org.bukkit.inventory.InventoryView view = p.openWorkbench(null, true);
+                        if (view != null && view.getTopInventory() instanceof org.bukkit.inventory.CraftingInventory) {
+                            org.bukkit.inventory.CraftingInventory craftInv = (org.bukkit.inventory.CraftingInventory) view.getTopInventory();
+                            org.bukkit.inventory.ItemStack[] matrix = new org.bukkit.inventory.ItemStack[9];
+                            matrix[1] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.MAGMA_CREAM, 1);
+                            matrix[4] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.DIAMOND_CHESTPLATE, 1);
+                            matrix[6] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.OBSIDIAN, 1);
+                            matrix[7] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.ANVIL, 1);
+                            matrix[8] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.OBSIDIAN, 1);
+                            craftInv.setMatrix(matrix);
+                        }
+                    } else {
+                        p.sendMessage(PREFIX + ChatColor.RED + "재료가 부족합니다.");
+                    }
+                } else if (recipe.equals("protection_book")) {
+                    if (RecipeManager.getProtectionBookCrafts(p.getUniqueId()) >= 4) {
+                        p.sendMessage(ChatColor.RED + "이미 보호의 책을 최대치(4/4)로 제작했습니다.");
+                        return true;
+                    }
+                    if (hasItems(p.getInventory(), org.bukkit.Material.PAPER, 3) &&
+                        hasItems(p.getInventory(), org.bukkit.Material.IRON_INGOT, 1)) {
+
+                        removeItems(p.getInventory(), org.bukkit.Material.PAPER, 3);
+                        removeItems(p.getInventory(), org.bukkit.Material.IRON_INGOT, 1);
+
+                        org.bukkit.inventory.InventoryView view = p.openWorkbench(null, true);
+                        if (view != null && view.getTopInventory() instanceof org.bukkit.inventory.CraftingInventory) {
+                            org.bukkit.inventory.CraftingInventory craftInv = (org.bukkit.inventory.CraftingInventory) view.getTopInventory();
+                            org.bukkit.inventory.ItemStack[] matrix = new org.bukkit.inventory.ItemStack[9];
+                            matrix[1] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.PAPER, 1);
+                            matrix[2] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.PAPER, 1);
+                            matrix[4] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.PAPER, 1);
+                            matrix[5] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.IRON_INGOT, 1);
+                            craftInv.setMatrix(matrix);
+                        }
+                    } else {
+                        p.sendMessage(PREFIX + ChatColor.RED + "재료가 부족합니다.");
+                    }
+                } else if (recipe.equals("nectar")) {
+                    if (RecipeManager.getNectarCrafts(p.getUniqueId()) >= 3) {
+                        p.sendMessage(ChatColor.RED + "이미 넥타르를 최대치(3/3)로 제작했습니다.");
+                        return true;
+                    }
+                    if (hasItems(p.getInventory(), org.bukkit.Material.EMERALD, 1) &&
+                        hasItems(p.getInventory(), org.bukkit.Material.GOLD_INGOT, 2) &&
+                        hasItems(p.getInventory(), org.bukkit.Material.MELON_SLICE, 1) &&
+                        hasItems(p.getInventory(), org.bukkit.Material.GLASS_BOTTLE, 1)) {
+
+                        removeItems(p.getInventory(), org.bukkit.Material.EMERALD, 1);
+                        removeItems(p.getInventory(), org.bukkit.Material.GOLD_INGOT, 2);
+                        removeItems(p.getInventory(), org.bukkit.Material.MELON_SLICE, 1);
+                        removeItems(p.getInventory(), org.bukkit.Material.GLASS_BOTTLE, 1);
+
+                        org.bukkit.inventory.InventoryView view = p.openWorkbench(null, true);
+                        if (view != null && view.getTopInventory() instanceof org.bukkit.inventory.CraftingInventory) {
+                            org.bukkit.inventory.CraftingInventory craftInv = (org.bukkit.inventory.CraftingInventory) view.getTopInventory();
+                            org.bukkit.inventory.ItemStack[] matrix = new org.bukkit.inventory.ItemStack[9];
+                            matrix[1] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.EMERALD, 1);
+                            matrix[3] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.GOLD_INGOT, 1);
+                            matrix[4] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.MELON_SLICE, 1);
+                            matrix[5] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.GOLD_INGOT, 1);
+                            matrix[7] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.GLASS_BOTTLE, 1);
+                            craftInv.setMatrix(matrix);
+                        }
+                    } else {
+                        p.sendMessage(PREFIX + ChatColor.RED + "재료가 부족합니다.");
+                    }
+                } else if (recipe.equals("burning_artifact")) {
+                    if (RecipeManager.getBurningArtifactCrafts(p.getUniqueId()) >= 1) {
+                        p.sendMessage(ChatColor.RED + "이미 불타는 아티팩트를 제작했습니다.");
+                        return true;
+                    }
+                    if (hasItems(p.getInventory(), org.bukkit.Material.ORANGE_STAINED_GLASS, 6) &&
+                        hasItems(p.getInventory(), org.bukkit.Material.LAVA_BUCKET, 2) &&
+                        hasItems(p.getInventory(), org.bukkit.Material.FIREWORK_ROCKET, 1)) {
+
+                        removeItems(p.getInventory(), org.bukkit.Material.ORANGE_STAINED_GLASS, 6);
+                        removeItems(p.getInventory(), org.bukkit.Material.LAVA_BUCKET, 2);
+                        removeItems(p.getInventory(), org.bukkit.Material.FIREWORK_ROCKET, 1);
+
+                        org.bukkit.inventory.InventoryView view = p.openWorkbench(null, true);
+                        if (view != null && view.getTopInventory() instanceof org.bukkit.inventory.CraftingInventory) {
+                            org.bukkit.inventory.CraftingInventory craftInv = (org.bukkit.inventory.CraftingInventory) view.getTopInventory();
+                            org.bukkit.inventory.ItemStack[] matrix = new org.bukkit.inventory.ItemStack[9];
+                            matrix[0] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.ORANGE_STAINED_GLASS, 1);
+                            matrix[1] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.LAVA_BUCKET, 1);
+                            matrix[2] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.ORANGE_STAINED_GLASS, 1);
+                            matrix[3] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.ORANGE_STAINED_GLASS, 1);
+                            matrix[4] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.FIREWORK_ROCKET, 1);
+                            matrix[5] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.ORANGE_STAINED_GLASS, 1);
+                            matrix[6] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.ORANGE_STAINED_GLASS, 1);
+                            matrix[7] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.LAVA_BUCKET, 1);
+                            matrix[8] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.ORANGE_STAINED_GLASS, 1);
+                            craftInv.setMatrix(matrix);
+                        }
+                    } else {
+                        p.sendMessage(PREFIX + ChatColor.RED + "재료가 부족합니다.");
+                    }
+                } else if (recipe.equals("delicious_meal")) {
+                    if (RecipeManager.getDeliciousMealCrafts(p.getUniqueId()) >= 3) {
+                        p.sendMessage(ChatColor.RED + "이미 맛있는 식사를 최대치(3/3)로 제작했습니다.");
+                        return true;
+                    }
+                    if (countMeatItems(p.getInventory()) >= 8 && hasItems(p.getInventory(), org.bukkit.Material.COAL, 1)) {
+                        // 어떤 고기든 8개 + 석탄 1개 제거
+                        List<org.bukkit.Material> meats = removeAnyMeatsAndGetList(p.getInventory(), 8);
+                        removeItems(p.getInventory(), org.bukkit.Material.COAL, 1);
+
+                        org.bukkit.inventory.InventoryView view = p.openWorkbench(null, true);
+                        if (view != null && view.getTopInventory() instanceof org.bukkit.inventory.CraftingInventory) {
+                            org.bukkit.inventory.CraftingInventory craftInv = (org.bukkit.inventory.CraftingInventory) view.getTopInventory();
+                            org.bukkit.inventory.ItemStack[] matrix = new org.bukkit.inventory.ItemStack[9];
+                            matrix[0] = new org.bukkit.inventory.ItemStack(meats.get(0), 1);
+                            matrix[1] = new org.bukkit.inventory.ItemStack(meats.get(1), 1);
+                            matrix[2] = new org.bukkit.inventory.ItemStack(meats.get(2), 1);
+                            matrix[3] = new org.bukkit.inventory.ItemStack(meats.get(3), 1);
+                            matrix[4] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.COAL, 1);
+                            matrix[5] = new org.bukkit.inventory.ItemStack(meats.get(4), 1);
+                            matrix[6] = new org.bukkit.inventory.ItemStack(meats.get(5), 1);
+                            matrix[7] = new org.bukkit.inventory.ItemStack(meats.get(6), 1);
+                            matrix[8] = new org.bukkit.inventory.ItemStack(meats.get(7), 1);
+                            craftInv.setMatrix(matrix);
+                        }
+                    } else {
+                        p.sendMessage(PREFIX + ChatColor.RED + "재료가 부족합니다.");
+                    }
+                } else if (recipe.equals("toughness_potion")) {
+                    if (RecipeManager.getToughnessPotionCrafts(p.getUniqueId()) >= 3) {
+                        p.sendMessage(ChatColor.RED + "이미 강인함의 포션을 최대치(3/3)로 제작했습니다.");
+                        return true;
+                    }
+                    if (hasItems(p.getInventory(), org.bukkit.Material.SLIME_BALL, 1) &&
+                        hasItems(p.getInventory(), org.bukkit.Material.SNOW_BLOCK, 1) &&
+                        hasItems(p.getInventory(), org.bukkit.Material.GLASS_BOTTLE, 1)) {
+
+                        removeItems(p.getInventory(), org.bukkit.Material.SLIME_BALL, 1);
+                        removeItems(p.getInventory(), org.bukkit.Material.SNOW_BLOCK, 1);
+                        removeItems(p.getInventory(), org.bukkit.Material.GLASS_BOTTLE, 1);
+
+                        org.bukkit.inventory.InventoryView view = p.openWorkbench(null, true);
+                        if (view != null && view.getTopInventory() instanceof org.bukkit.inventory.CraftingInventory) {
+                            org.bukkit.inventory.CraftingInventory craftInv = (org.bukkit.inventory.CraftingInventory) view.getTopInventory();
+                            org.bukkit.inventory.ItemStack[] matrix = new org.bukkit.inventory.ItemStack[9];
+                            matrix[1] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.SLIME_BALL, 1);
+                            matrix[4] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.SNOW_BLOCK, 1);
+                            matrix[7] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.GLASS_BOTTLE, 1);
+                            craftInv.setMatrix(matrix);
+                        }
+                    } else {
+                        p.sendMessage(PREFIX + ChatColor.RED + "재료가 부족합니다.");
+                    }
+                } else if (recipe.equals("seven_league_boots")) {
+                    if (RecipeManager.getSevenLeagueBootsCrafts(p.getUniqueId()) >= 1) {
+                        p.sendMessage(ChatColor.RED + "이미 세븐 리그 부츠를 제작했습니다.");
+                        return true;
+                    }
+                    if (hasItems(p.getInventory(), org.bukkit.Material.FEATHER, 6) &&
+                        hasItems(p.getInventory(), org.bukkit.Material.ENDER_PEARL, 1) &&
+                        hasItems(p.getInventory(), org.bukkit.Material.DIAMOND_BOOTS, 1) &&
+                        hasItems(p.getInventory(), org.bukkit.Material.WATER_BUCKET, 1)) {
+
+                        removeItems(p.getInventory(), org.bukkit.Material.FEATHER, 6);
+                        removeItems(p.getInventory(), org.bukkit.Material.ENDER_PEARL, 1);
+                        removeItems(p.getInventory(), org.bukkit.Material.DIAMOND_BOOTS, 1);
+                        removeItems(p.getInventory(), org.bukkit.Material.WATER_BUCKET, 1);
+
+                        org.bukkit.inventory.InventoryView view = p.openWorkbench(null, true);
+                        if (view != null && view.getTopInventory() instanceof org.bukkit.inventory.CraftingInventory) {
+                            org.bukkit.inventory.CraftingInventory craftInv = (org.bukkit.inventory.CraftingInventory) view.getTopInventory();
+                            org.bukkit.inventory.ItemStack[] matrix = new org.bukkit.inventory.ItemStack[9];
+                            matrix[0] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.FEATHER, 1);
+                            matrix[1] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.ENDER_PEARL, 1);
+                            matrix[2] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.FEATHER, 1);
+                            matrix[3] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.FEATHER, 1);
+                            matrix[4] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.DIAMOND_BOOTS, 1);
+                            matrix[5] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.FEATHER, 1);
+                            matrix[6] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.FEATHER, 1);
+                            matrix[7] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.WATER_BUCKET, 1);
+                            matrix[8] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.FEATHER, 1);
+                            craftInv.setMatrix(matrix);
+                        }
+                    } else {
+                        p.sendMessage(PREFIX + ChatColor.RED + "재료가 부족합니다.");
+                    }
+                } else if (recipe.equals("iron_pack")) {
+                    if (RecipeManager.getIronPackCrafts(p.getUniqueId()) >= 4) {
+                        p.sendMessage(ChatColor.RED + "이미 아이언 팩을 최대치(4/4)로 제작했습니다.");
+                        return true;
+                    }
+                    if (hasItems(p.getInventory(), org.bukkit.Material.RAW_IRON, 8) &&
+                        hasItems(p.getInventory(), org.bukkit.Material.COAL, 1)) {
+
+                        removeItems(p.getInventory(), org.bukkit.Material.RAW_IRON, 8);
+                        removeItems(p.getInventory(), org.bukkit.Material.COAL, 1);
+
+                        org.bukkit.inventory.InventoryView view = p.openWorkbench(null, true);
+                        if (view != null && view.getTopInventory() instanceof org.bukkit.inventory.CraftingInventory) {
+                            org.bukkit.inventory.CraftingInventory craftInv = (org.bukkit.inventory.CraftingInventory) view.getTopInventory();
+                            org.bukkit.inventory.ItemStack[] matrix = new org.bukkit.inventory.ItemStack[9];
+                            matrix[0] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.RAW_IRON, 1);
+                            matrix[1] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.RAW_IRON, 1);
+                            matrix[2] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.RAW_IRON, 1);
+                            matrix[3] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.RAW_IRON, 1);
+                            matrix[4] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.COAL, 1);
+                            matrix[5] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.RAW_IRON, 1);
+                            matrix[6] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.RAW_IRON, 1);
+                            matrix[7] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.RAW_IRON, 1);
+                            matrix[8] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.RAW_IRON, 1);
+                            craftInv.setMatrix(matrix);
+                        }
+                    } else {
+                        p.sendMessage(PREFIX + ChatColor.RED + "재료가 부족합니다.");
+                    }
+                } else if (recipe.equals("obsidian_mix")) {
+                    if (RecipeManager.getObsidianMixCrafts(p.getUniqueId()) >= 3) {
+                        p.sendMessage(ChatColor.RED + "이미 흑요석 만들기를 최대치(3/3)로 제작했습니다.");
+                        return true;
+                    }
+                    if (hasItems(p.getInventory(), org.bukkit.Material.WATER_BUCKET, 1) &&
+                        hasItems(p.getInventory(), org.bukkit.Material.LAVA_BUCKET, 1)) {
+
+                        removeItems(p.getInventory(), org.bukkit.Material.WATER_BUCKET, 1);
+                        removeItems(p.getInventory(), org.bukkit.Material.LAVA_BUCKET, 1);
+
+                        org.bukkit.inventory.InventoryView view = p.openWorkbench(null, true);
+                        if (view != null && view.getTopInventory() instanceof org.bukkit.inventory.CraftingInventory) {
+                            org.bukkit.inventory.CraftingInventory craftInv = (org.bukkit.inventory.CraftingInventory) view.getTopInventory();
+                            org.bukkit.inventory.ItemStack[] matrix = new org.bukkit.inventory.ItemStack[9];
+                            matrix[0] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.WATER_BUCKET, 1);
+                            matrix[1] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.LAVA_BUCKET, 1);
+                            craftInv.setMatrix(matrix);
+                        }
+                    } else {
+                        p.sendMessage(PREFIX + ChatColor.RED + "재료가 부족합니다.");
+                    }
+                } else if (recipe.equals("tarnhelm")) {
+                    if (RecipeManager.getTarnhelmCrafts(p.getUniqueId()) >= 3) {
+                        p.sendMessage(ChatColor.RED + "이미 탄헬름을 최대치(3/3)로 제작했습니다.");
+                        return true;
+                    }
+                    if (hasItems(p.getInventory(), org.bukkit.Material.DIAMOND, 4) &&
+                        hasItems(p.getInventory(), org.bukkit.Material.IRON_INGOT, 1) &&
+                        hasItems(p.getInventory(), org.bukkit.Material.REDSTONE_BLOCK, 1)) {
+
+                        removeItems(p.getInventory(), org.bukkit.Material.DIAMOND, 4);
+                        removeItems(p.getInventory(), org.bukkit.Material.IRON_INGOT, 1);
+                        removeItems(p.getInventory(), org.bukkit.Material.REDSTONE_BLOCK, 1);
+
+                        org.bukkit.inventory.InventoryView view = p.openWorkbench(null, true);
+                        if (view != null && view.getTopInventory() instanceof org.bukkit.inventory.CraftingInventory) {
+                            org.bukkit.inventory.CraftingInventory craftInv = (org.bukkit.inventory.CraftingInventory) view.getTopInventory();
+                            org.bukkit.inventory.ItemStack[] matrix = new org.bukkit.inventory.ItemStack[9];
+                            matrix[0] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.DIAMOND, 1);
+                            matrix[1] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.IRON_INGOT, 1);
+                            matrix[2] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.DIAMOND, 1);
+                            matrix[3] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.DIAMOND, 1);
+                            matrix[4] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.REDSTONE_BLOCK, 1);
+                            matrix[5] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.DIAMOND, 1);
+                            craftInv.setMatrix(matrix);
+                        }
+                    } else {
+                        p.sendMessage(PREFIX + ChatColor.RED + "재료가 부족합니다.");
+                    }
+                } else if (recipe.equals("philosopher_pickaxe")) {
+                    if (RecipeManager.getPhilosopherPickaxeCrafts(p.getUniqueId()) >= 1) {
+                        p.sendMessage(ChatColor.RED + "이미 철학자의 곡괭이를 제작했습니다.");
+                        return true;
+                    }
+                    if (hasItems(p.getInventory(), org.bukkit.Material.RAW_IRON, 2) &&
+                        hasItems(p.getInventory(), org.bukkit.Material.RAW_GOLD, 1) &&
+                        hasItems(p.getInventory(), org.bukkit.Material.LAPIS_BLOCK, 2) &&
+                        hasItems(p.getInventory(), org.bukkit.Material.STICK, 2)) {
+
+                        removeItems(p.getInventory(), org.bukkit.Material.RAW_IRON, 2);
+                        removeItems(p.getInventory(), org.bukkit.Material.RAW_GOLD, 1);
+                        removeItems(p.getInventory(), org.bukkit.Material.LAPIS_BLOCK, 2);
+                        removeItems(p.getInventory(), org.bukkit.Material.STICK, 2);
+
+                        org.bukkit.inventory.InventoryView view = p.openWorkbench(null, true);
+                        if (view != null && view.getTopInventory() instanceof org.bukkit.inventory.CraftingInventory) {
+                            org.bukkit.inventory.CraftingInventory craftInv = (org.bukkit.inventory.CraftingInventory) view.getTopInventory();
+                            org.bukkit.inventory.ItemStack[] matrix = new org.bukkit.inventory.ItemStack[9];
+                            matrix[0] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.RAW_IRON, 1);
+                            matrix[1] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.RAW_GOLD, 1);
+                            matrix[2] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.RAW_IRON, 1);
+                            matrix[3] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.LAPIS_BLOCK, 1);
+                            matrix[4] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.STICK, 1);
+                            matrix[5] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.LAPIS_BLOCK, 1);
+                            matrix[7] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.STICK, 1);
+                            craftInv.setMatrix(matrix);
+                        }
+                    } else {
+                        p.sendMessage(PREFIX + ChatColor.RED + "재료가 부족합니다.");
+                    }
+                } else if (recipe.equals("awakening_pack")) {
+                    if (RecipeManager.getAwakeningPackCrafts(p.getUniqueId()) >= 3) {
+                        p.sendMessage(ChatColor.RED + "이미 깨우침의 팩을 최대치(3/3)로 제작했습니다.");
+                        return true;
+                    }
+                    if (hasItems(p.getInventory(), org.bukkit.Material.REDSTONE_BLOCK, 4) &&
+                        hasItems(p.getInventory(), org.bukkit.Material.GLASS_BOTTLE, 1)) {
+
+                        removeItems(p.getInventory(), org.bukkit.Material.REDSTONE_BLOCK, 4);
+                        removeItems(p.getInventory(), org.bukkit.Material.GLASS_BOTTLE, 1);
+
+                        org.bukkit.inventory.InventoryView view = p.openWorkbench(null, true);
+                        if (view != null && view.getTopInventory() instanceof org.bukkit.inventory.CraftingInventory) {
+                            org.bukkit.inventory.CraftingInventory craftInv = (org.bukkit.inventory.CraftingInventory) view.getTopInventory();
+                            org.bukkit.inventory.ItemStack[] matrix = new org.bukkit.inventory.ItemStack[9];
+                            matrix[1] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.REDSTONE_BLOCK, 1);
+                            matrix[3] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.REDSTONE_BLOCK, 1);
+                            matrix[4] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.GLASS_BOTTLE, 1);
+                            matrix[5] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.REDSTONE_BLOCK, 1);
+                            matrix[7] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.REDSTONE_BLOCK, 1);
+                            craftInv.setMatrix(matrix);
+                        }
+                    } else {
+                        p.sendMessage(PREFIX + ChatColor.RED + "재료가 부족합니다.");
+                    }
+                } else if (recipe.equals("light_anvil")) {
+                    if (RecipeManager.getLightAnvilCrafts(p.getUniqueId()) >= 3) {
+                        p.sendMessage(ChatColor.RED + "이미 가벼운 모루를 최대치(3/3)로 제작했습니다.");
+                        return true;
+                    }
+                    if (hasItems(p.getInventory(), org.bukkit.Material.IRON_INGOT, 6) &&
+                        hasItems(p.getInventory(), org.bukkit.Material.IRON_BLOCK, 1)) {
+
+                        removeItems(p.getInventory(), org.bukkit.Material.IRON_INGOT, 6);
+                        removeItems(p.getInventory(), org.bukkit.Material.IRON_BLOCK, 1);
+
+                        org.bukkit.inventory.InventoryView view = p.openWorkbench(null, true);
+                        if (view != null && view.getTopInventory() instanceof org.bukkit.inventory.CraftingInventory) {
+                            org.bukkit.inventory.CraftingInventory craftInv = (org.bukkit.inventory.CraftingInventory) view.getTopInventory();
+                            org.bukkit.inventory.ItemStack[] matrix = new org.bukkit.inventory.ItemStack[9];
+                            matrix[0] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.IRON_INGOT, 1);
+                            matrix[1] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.IRON_INGOT, 1);
+                            matrix[2] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.IRON_INGOT, 1);
+                            matrix[4] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.IRON_BLOCK, 1);
+                            matrix[6] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.IRON_INGOT, 1);
+                            matrix[7] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.IRON_INGOT, 1);
+                            matrix[8] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.IRON_INGOT, 1);
+                            craftInv.setMatrix(matrix);
+                        }
+                    } else {
+                        p.sendMessage(PREFIX + ChatColor.RED + "재료가 부족합니다.");
+                    }
+                } else if (recipe.equals("light_enchanting_table")) {
+                    if (RecipeManager.getLightEnchantingTableCrafts(p.getUniqueId()) >= 3) {
+                        p.sendMessage(ChatColor.RED + "이미 가벼운 마법 부여대를 최대치(3/3)로 제작했습니다.");
+                        return true;
+                    }
+                    if (hasItems(p.getInventory(), org.bukkit.Material.BOOKSHELF, 1) &&
+                        hasItems(p.getInventory(), org.bukkit.Material.OBSIDIAN, 4) &&
+                        hasItems(p.getInventory(), org.bukkit.Material.DIAMOND, 1) &&
+                        hasItems(p.getInventory(), org.bukkit.Material.EXPERIENCE_BOTTLE, 1)) {
+
+                        removeItems(p.getInventory(), org.bukkit.Material.BOOKSHELF, 1);
+                        removeItems(p.getInventory(), org.bukkit.Material.OBSIDIAN, 4);
+                        removeItems(p.getInventory(), org.bukkit.Material.DIAMOND, 1);
+                        removeItems(p.getInventory(), org.bukkit.Material.EXPERIENCE_BOTTLE, 1);
+
+                        org.bukkit.inventory.InventoryView view = p.openWorkbench(null, true);
+                        if (view != null && view.getTopInventory() instanceof org.bukkit.inventory.CraftingInventory) {
+                            org.bukkit.inventory.CraftingInventory craftInv = (org.bukkit.inventory.CraftingInventory) view.getTopInventory();
+                            org.bukkit.inventory.ItemStack[] matrix = new org.bukkit.inventory.ItemStack[9];
+                            // 2번 책장, 4번 흑요석, 5번 다이아몬드, 6번 흑요석, 7번 흑요석, 8번 경험치병, 9번 흑요석
+                            matrix[1] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.BOOKSHELF, 1);
+                            matrix[3] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.OBSIDIAN, 1);
+                            matrix[4] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.DIAMOND, 1);
+                            matrix[5] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.OBSIDIAN, 1);
+                            matrix[6] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.OBSIDIAN, 1);
+                            matrix[7] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.EXPERIENCE_BOTTLE, 1);
+                            matrix[8] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.OBSIDIAN, 1);
+                            craftInv.setMatrix(matrix);
+                        }
+                    } else {
+                        p.sendMessage(PREFIX + ChatColor.RED + "재료가 부족합니다.");
+                    }
+                } else if (recipe.equals("eves_temptation")) {
+                    if (RecipeManager.getEvesTemptationCrafts(p.getUniqueId()) >= 3) {
+                        p.sendMessage(ChatColor.RED + "이미 이브의 유혹을 최대치(3/3)로 제작했습니다.");
+                        return true;
+                    }
+                    if (hasItems(p.getInventory(), org.bukkit.Material.APPLE, 1) &&
+                        hasItems(p.getInventory(), org.bukkit.Material.BONE_MEAL, 1)) {
+
+                        removeItems(p.getInventory(), org.bukkit.Material.APPLE, 1);
+                        removeItems(p.getInventory(), org.bukkit.Material.BONE_MEAL, 1);
+
+                        org.bukkit.inventory.InventoryView view = p.openWorkbench(null, true);
+                        if (view != null && view.getTopInventory() instanceof org.bukkit.inventory.CraftingInventory) {
+                            org.bukkit.inventory.CraftingInventory craftInv = (org.bukkit.inventory.CraftingInventory) view.getTopInventory();
+                            org.bukkit.inventory.ItemStack[] matrix = new org.bukkit.inventory.ItemStack[9];
+                            matrix[0] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.APPLE, 1);
+                            matrix[1] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.BONE_MEAL, 1);
+                            craftInv.setMatrix(matrix);
+                        }
+                    } else {
+                        p.sendMessage(PREFIX + ChatColor.RED + "재료가 부족합니다.");
+                    }
+                } else if (recipe.equals("fruit_of_recovery")) {
+                    if (RecipeManager.getFruitOfRecoveryCrafts(p.getUniqueId()) >= 3) {
+                        p.sendMessage(ChatColor.RED + "이미 회복의 과일을 최대치(3/3)로 제작했습니다.");
+                        return true;
+                    }
+                    if (hasItems(p.getInventory(), org.bukkit.Material.BONE_MEAL, 4) &&
+                        hasItems(p.getInventory(), org.bukkit.Material.WHEAT_SEEDS, 4) &&
+                        hasItems(p.getInventory(), org.bukkit.Material.APPLE, 1)) {
+
+                        removeItems(p.getInventory(), org.bukkit.Material.BONE_MEAL, 4);
+                        removeItems(p.getInventory(), org.bukkit.Material.WHEAT_SEEDS, 4);
+                        removeItems(p.getInventory(), org.bukkit.Material.APPLE, 1);
+
+                        org.bukkit.inventory.InventoryView view = p.openWorkbench(null, true);
+                        if (view != null && view.getTopInventory() instanceof org.bukkit.inventory.CraftingInventory) {
+                            org.bukkit.inventory.CraftingInventory craftInv = (org.bukkit.inventory.CraftingInventory) view.getTopInventory();
+                            org.bukkit.inventory.ItemStack[] matrix = new org.bukkit.inventory.ItemStack[9];
+                            matrix[0] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.BONE_MEAL, 1);
+                            matrix[1] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.WHEAT_SEEDS, 1);
+                            matrix[2] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.BONE_MEAL, 1);
+                            matrix[3] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.WHEAT_SEEDS, 1);
+                            matrix[4] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.APPLE, 1);
+                            matrix[5] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.WHEAT_SEEDS, 1);
+                            matrix[6] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.BONE_MEAL, 1);
+                            matrix[7] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.WHEAT_SEEDS, 1);
+                            matrix[8] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.BONE_MEAL, 1);
+                            craftInv.setMatrix(matrix);
+                        }
+                    } else {
+                        p.sendMessage(PREFIX + ChatColor.RED + "재료가 부족합니다.");
+                    }
+                } else if (recipe.equals("light_apple")) {
+                    if (RecipeManager.getLightAppleCrafts(p.getUniqueId()) >= 1) {
+                        p.sendMessage(ChatColor.RED + "이미 가벼운 사과를 제작했습니다.");
+                        return true;
+                    }
+                    if (hasItems(p.getInventory(), org.bukkit.Material.GOLD_INGOT, 4) &&
+                        hasItems(p.getInventory(), org.bukkit.Material.APPLE, 1)) {
+
+                        removeItems(p.getInventory(), org.bukkit.Material.GOLD_INGOT, 4);
+                        removeItems(p.getInventory(), org.bukkit.Material.APPLE, 1);
+
+                        org.bukkit.inventory.InventoryView view = p.openWorkbench(null, true);
+                        if (view != null && view.getTopInventory() instanceof org.bukkit.inventory.CraftingInventory) {
+                            org.bukkit.inventory.CraftingInventory craftInv = (org.bukkit.inventory.CraftingInventory) view.getTopInventory();
+                            org.bukkit.inventory.ItemStack[] matrix = new org.bukkit.inventory.ItemStack[9];
+                            matrix[1] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.GOLD_INGOT, 1);
+                            matrix[3] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.GOLD_INGOT, 1);
+                            matrix[4] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.APPLE, 1);
+                            matrix[5] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.GOLD_INGOT, 1);
+                            matrix[7] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.GOLD_INGOT, 1);
+                            craftInv.setMatrix(matrix);
+                        }
+                    } else {
+                        p.sendMessage(PREFIX + ChatColor.RED + "재료가 부족합니다.");
+                    }
+                } else if (recipe.equals("golden_head")) {
+                    if (RecipeManager.getGoldenHeadCrafts(p.getUniqueId()) >= 3) {
+                        p.sendMessage(ChatColor.RED + "이미 황금 머리를 최대치(3/3)로 제작했습니다.");
+                        return true;
+                    }
+                    if (hasItems(p.getInventory(), org.bukkit.Material.GOLD_INGOT, 8) &&
+                        hasItems(p.getInventory(), org.bukkit.Material.PLAYER_HEAD, 1)) {
+
+                        removeItems(p.getInventory(), org.bukkit.Material.GOLD_INGOT, 8);
+                        removeItems(p.getInventory(), org.bukkit.Material.PLAYER_HEAD, 1);
+
+                        org.bukkit.inventory.InventoryView view = p.openWorkbench(null, true);
+                        if (view != null && view.getTopInventory() instanceof org.bukkit.inventory.CraftingInventory) {
+                            org.bukkit.inventory.CraftingInventory craftInv = (org.bukkit.inventory.CraftingInventory) view.getTopInventory();
+                            org.bukkit.inventory.ItemStack[] matrix = new org.bukkit.inventory.ItemStack[9];
+                            matrix[0] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.GOLD_INGOT, 1);
+                            matrix[1] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.GOLD_INGOT, 1);
+                            matrix[2] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.GOLD_INGOT, 1);
+                            matrix[3] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.GOLD_INGOT, 1);
+                            matrix[4] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.PLAYER_HEAD, 1);
+                            matrix[5] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.GOLD_INGOT, 1);
+                            matrix[6] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.GOLD_INGOT, 1);
+                            matrix[7] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.GOLD_INGOT, 1);
+                            matrix[8] = new org.bukkit.inventory.ItemStack(org.bukkit.Material.GOLD_INGOT, 1);
+                            craftInv.setMatrix(matrix);
+                        }
+                    } else {
+                        p.sendMessage(PREFIX + ChatColor.RED + "재료가 부족합니다.");
+                    }
                 }
             }
 
@@ -394,5 +953,31 @@ public class UHCCommand implements CommandExecutor, TabCompleter {
                 if (toRemove == 0) break;
             }
         }
+    }
+
+    private int countMeatItems(org.bukkit.inventory.Inventory inv) {
+        int count = 0;
+        for (org.bukkit.inventory.ItemStack item : inv.getContents()) {
+            if (item != null && (item.getType() == org.bukkit.Material.PORKCHOP || item.getType() == org.bukkit.Material.BEEF || item.getType() == org.bukkit.Material.MUTTON)) {
+                count += item.getAmount();
+            }
+        }
+        return count;
+    }
+
+    private List<org.bukkit.Material> removeAnyMeatsAndGetList(org.bukkit.inventory.Inventory inv, int amount) {
+        List<org.bukkit.Material> removed = new ArrayList<>();
+        for (int i = 0; i < inv.getSize(); i++) {
+            org.bukkit.inventory.ItemStack item = inv.getItem(i);
+            if (item != null && (item.getType() == org.bukkit.Material.PORKCHOP || item.getType() == org.bukkit.Material.BEEF || item.getType() == org.bukkit.Material.MUTTON)) {
+                while (item.getAmount() > 0 && removed.size() < amount) {
+                    item.setAmount(item.getAmount() - 1);
+                    removed.add(item.getType());
+                }
+                if (item.getAmount() == 0) inv.setItem(i, null);
+                if (removed.size() == amount) break;
+            }
+        }
+        return removed;
     }
 }
