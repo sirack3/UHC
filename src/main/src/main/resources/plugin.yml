@@ -1,0 +1,12 @@
+name: UHC
+version: '1.9.7'
+main: com.sirack.uhc.UHCPlugin
+api-version: '1.21'
+commands:
+  유챔:
+    description: UHC 메인 명령어
+    usage: /유챔 <시작|종료|조합법도감>
+permissions:
+  uhc.admin:
+    description: UHC 관리자 권한
+    default: op

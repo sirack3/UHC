@@ -1,0 +1,948 @@
+# ============================================================
+# UHC 커스텀 조합법 정의 파일
+# 새 레시피를 추가하려면 아래 형식에 맞춰 항목만 추가하면 됩니다.
+# ============================================================
+#
+# 필드 설명:
+#   id           : 레시피 고유 키 (NamespacedKey)
+#   tag          : 아이템 이름 (색상 코드 없이)
+#   nameColor    : 아이템 이름 색상 (ChatColor 이름)
+#   maxCrafts    : 플레이어당 최대 제작 횟수
+#   result       : 결과 아이템 (material, amount)
+#   type         : shaped / shapeless
+#   shape        : 3줄 패턴 (shaped일 때)
+#   ingredients  : 문자 → 재료 매핑
+#   enchantments : 인챈트 목록 (enchant: level)
+#   storedEnchantments : 마법부여 책 전용
+#   lore         : 아이템 설명 목록
+#   itemFlags    : HIDE_ENCHANTS 등
+#   attributes   : 커스텀 어트리뷰트
+#   damage       : 내구도 손상값 (Damageable)
+#   potionEffects: 포션 효과 목록
+#   potionColor  : 포션 색상
+#   guiPage      : 조합법 도감 페이지 (1~3)
+#   guiSlot      : 도감 내 슬롯 번호
+#   notify       : 재료 획득 시 알림 조건
+#     triggerMaterials : 알림 트리거 재료 목록
+#     requirements     : 필요 재료와 수량
+#   special      : 특수 처리 필요 여부 (golden_head, fusion_armor 등)
+#   materialChoice : 여러 재료 중 하나를 사용하는 슬롯 정의
+#   shapelessChoices: 그룹 또는 다중 재료를 사용하는 무정형 슬롯 정의
+#   randomResults: 여러 재료 중 무작위 1종을 결과물로 생성
+
+materialGroups:
+  _MEAT: [PORKCHOP, BEEF, MUTTON, CHICKEN, RABBIT, COD, SALMON]
+  _SAPLING: [OAK_SAPLING, SPRUCE_SAPLING, BIRCH_SAPLING, JUNGLE_SAPLING, ACACIA_SAPLING, DARK_OAK_SAPLING, CHERRY_SAPLING, MANGROVE_PROPAGULE]
+  _DIAMOND_ARMOR: [DIAMOND_HELMET, DIAMOND_CHESTPLATE, DIAMOND_LEGGINGS, DIAMOND_BOOTS]
+
+recipes:
+  # ── 1. 견습용 투구 ──
+  - id: apprentice_helmet
+    tag: "견습용 투구"
+    nameColor: AQUA
+    maxCrafts: 1
+    result:
+      material: IRON_HELMET
+      amount: 1
+    type: shaped
+    shape: ["III", "IRI"]
+    ingredients:
+      I: IRON_INGOT
+      R: REDSTONE_TORCH
+    enchantments:
+      PROTECTION: 1
+      FIRE_PROTECTION: 1
+      BLAST_PROTECTION: 1
+      FEATHER_FALLING: 1
+    guiPage: 1
+    guiSlot: 10
+    notify:
+      triggerMaterials: [IRON_INGOT, REDSTONE_TORCH]
+      requirements:
+        IRON_INGOT: 5
+        REDSTONE_TORCH: 1
+
+  # ── 2. 견습용 검 ──
+  - id: apprentice_sword
+    tag: "견습용 검"
+    nameColor: AQUA
+    maxCrafts: 1
+    result:
+      material: IRON_SWORD
+      amount: 1
+    type: shaped
+    shape: [" R ", " S ", " R "]
+    ingredients:
+      R: REDSTONE_BLOCK
+      S: IRON_SWORD
+    lore:
+      - "&7이 검은 시간이 지날수록 강해집니다."
+      - "&ePVP 시작 시 날카로움 I"
+      - "&625분 후 날카로움 II"
+    itemFlags: [HIDE_ENCHANTS, HIDE_ATTRIBUTES]
+    guiPage: 1
+    guiSlot: 11
+    notify:
+      triggerMaterials: [IRON_SWORD, REDSTONE_BLOCK]
+      requirements:
+        IRON_SWORD: 1
+        REDSTONE_BLOCK: 2
+
+  # ── 3. 견습용 활 ──
+  - id: apprentice_bow
+    tag: "견습용 활"
+    nameColor: AQUA
+    maxCrafts: 1
+    result:
+      material: BOW
+      amount: 1
+    type: shaped
+    shape: [" RS", "R S", " RS"]
+    ingredients:
+      R: REDSTONE_TORCH
+      S: STRING
+    lore:
+      - "&7이 활은 시간이 지날수록 강해집니다."
+      - "&ePVP 시작 시 힘 I"
+      - "&615분 후 힘 II"
+      - "&c25분 후 힘 III"
+    itemFlags: [HIDE_ENCHANTS, HIDE_ATTRIBUTES]
+    guiPage: 1
+    guiSlot: 12
+    notify:
+      triggerMaterials: [STRING, REDSTONE_TORCH]
+      requirements:
+        STRING: 3
+        REDSTONE_TORCH: 3
+
+  # ── 4. 마스터의 나침반 ──
+  - id: master_compass
+    tag: "마스터의 나침반"
+    nameColor: GOLD
+    maxCrafts: 1
+    result:
+      material: COMPASS
+      amount: 1
+    type: shaped
+    shape: ["RTR", "RCR", "RRR"]
+    ingredients:
+      R: REDSTONE
+      T: REDSTONE_TORCH
+      C: COMPASS
+    enchantments:
+      UNBREAKING: 1
+    lore:
+      - "&7우클릭시 가장 가까운 상대를 추적합니다."
+      - "&8상대가 없으면 정면 방향으로 입자가 퍼집니다."
+      - "&c한 번 사용 후 소멸됩니다."
+    guiPage: 1
+    guiSlot: 13
+    notify:
+      triggerMaterials: [REDSTONE, REDSTONE_TORCH, COMPASS]
+      requirements:
+        REDSTONE: 7
+        REDSTONE_TORCH: 1
+        COMPASS: 1
+
+  # ── 5. 날카로움의 책 ──
+  - id: sharpness_book
+    tag: "날카로움의 책"
+    nameColor: GOLD
+    maxCrafts: 4
+    result:
+      material: ENCHANTED_BOOK
+      amount: 1
+    type: shaped
+    shape: ["F  ", " PP", " PI"]
+    ingredients:
+      F: FLINT
+      P: PAPER
+      I: IRON_SWORD
+    storedEnchantments:
+      SHARPNESS: 1
+    guiPage: 1
+    guiSlot: 14
+    notify:
+      triggerMaterials: [FLINT, PAPER, IRON_SWORD]
+      requirements:
+        FLINT: 1
+        PAPER: 3
+        IRON_SWORD: 1
+
+  # ── 6. 힘의 책 ──
+  - id: power_book
+    tag: "힘의 책"
+    nameColor: GOLD
+    maxCrafts: 4
+    result:
+      material: ENCHANTED_BOOK
+      amount: 1
+    type: shaped
+    shape: ["F  ", " PP", " PB"]
+    ingredients:
+      F: FLINT
+      P: PAPER
+      B: BONE
+    storedEnchantments:
+      POWER: 1
+    guiPage: 1
+    guiSlot: 15
+    notify:
+      triggerMaterials: [FLINT, PAPER, BONE]
+      requirements:
+        FLINT: 1
+        PAPER: 3
+        BONE: 1
+
+  # ── 7. 용의 검 ──
+  - id: dragon_sword
+    tag: "용의 검"
+    nameColor: LIGHT_PURPLE
+    maxCrafts: 1
+    result:
+      material: DIAMOND_SWORD
+      amount: 1
+    type: shaped
+    shape: [" B ", " D ", "OBO"]
+    ingredients:
+      B: BLAZE_POWDER
+      D: DIAMOND_SWORD
+      O: OBSIDIAN
+    attributes:
+      GENERIC_ATTACK_DAMAGE:
+        amount: 8.0
+        operation: ADD_NUMBER
+        slot: MAINHAND
+      GENERIC_ATTACK_SPEED:
+        amount: -2.4
+        operation: ADD_NUMBER
+        slot: MAINHAND
+    guiPage: 1
+    guiSlot: 16
+    notify:
+      triggerMaterials: [BLAZE_POWDER, DIAMOND_SWORD, OBSIDIAN]
+      requirements:
+        BLAZE_POWDER: 2
+        DIAMOND_SWORD: 1
+        OBSIDIAN: 2
+
+  # ── 8. 가죽 절약 ──
+  - id: leather_saving
+    tag: "가죽 절약"
+    nameColor: GREEN
+    maxCrafts: 3
+    result:
+      material: LEATHER
+      amount: 6
+    type: shaped
+    shape: ["SLS", "SLS", "SLS"]
+    ingredients:
+      S: STICK
+      L: LEATHER
+    lore:
+      - "&7가죽 방어구를 만들 때 재료를 아낄 수 있습니다."
+    guiPage: 1
+    guiSlot: 19
+    notify:
+      triggerMaterials: [LEATHER, STICK]
+      requirements:
+        LEATHER: 3
+        STICK: 6
+
+  # ── 9. 보호의 책 ──
+  - id: protection_book
+    tag: "보호의 책"
+    nameColor: AQUA
+    maxCrafts: 4
+    result:
+      material: ENCHANTED_BOOK
+      amount: 1
+    type: shaped
+    shape: ["PP", "PI"]
+    ingredients:
+      P: PAPER
+      I: IRON_INGOT
+    storedEnchantments:
+      PROTECTION: 1
+    guiPage: 1
+    guiSlot: 20
+    notify:
+      triggerMaterials: [PAPER, IRON_INGOT]
+      requirements:
+        PAPER: 3
+        IRON_INGOT: 1
+
+  # ── 10. 용의 갑옷 ──
+  - id: dragon_armor
+    tag: "용의 갑옷"
+    nameColor: DARK_PURPLE
+    maxCrafts: 1
+    result:
+      material: DIAMOND_CHESTPLATE
+      amount: 1
+    type: shaped
+    shape: [" M ", " C ", "OAO"]
+    ingredients:
+      M: MAGMA_CREAM
+      C: DIAMOND_CHESTPLATE
+      O: OBSIDIAN
+      A: ANVIL
+    enchantments:
+      PROTECTION: 4
+    guiPage: 1
+    guiSlot: 21
+    notify:
+      triggerMaterials: [MAGMA_CREAM, DIAMOND_CHESTPLATE, OBSIDIAN, ANVIL]
+      requirements:
+        MAGMA_CREAM: 1
+        DIAMOND_CHESTPLATE: 1
+        OBSIDIAN: 2
+        ANVIL: 1
+
+  # ── 11. 넥타르 ──
+  - id: nectar
+    tag: "넥타르"
+    nameColor: YELLOW
+    maxCrafts: 3
+    result:
+      material: POTION
+      amount: 1
+    type: shaped
+    shape: [" E ", "GMG", " B "]
+    ingredients:
+      E: EMERALD
+      G: GOLD_INGOT
+      M: MELON_SLICE
+      B: GLASS_BOTTLE
+    potionEffects:
+      - type: REGENERATION
+        duration: 200
+        amplifier: 1
+    potionColor: YELLOW
+    enchantments:
+      LUCK_OF_THE_SEA: 1
+    itemFlags: [HIDE_ENCHANTS]
+    lore:
+      - "&7마시면 재생 II 효과를 10초간 얻습니다."
+    guiPage: 1
+    guiSlot: 22
+    notify:
+      triggerMaterials: [EMERALD, GOLD_INGOT, MELON_SLICE, GLASS_BOTTLE]
+      requirements:
+        EMERALD: 1
+        GOLD_INGOT: 2
+        MELON_SLICE: 1
+        GLASS_BOTTLE: 1
+
+  # ── 12. 불타는 아티팩트 ──
+  - id: burning_artifact
+    tag: "불타는 아티팩트"
+    nameColor: RED
+    maxCrafts: 1
+    result:
+      material: BLAZE_ROD
+      amount: 1
+    type: shaped
+    shape: ["OLO", "OFO", "OLO"]
+    ingredients:
+      O: ORANGE_STAINED_GLASS
+      L: LAVA_BUCKET
+      F: FIREWORK_ROCKET
+    lore:
+      - "&7조합 후 블레이즈 막대기 1개를 얻습니다."
+    enchantments:
+      LUCK_OF_THE_SEA: 1
+    itemFlags: [HIDE_ENCHANTS]
+    guiPage: 1
+    guiSlot: 23
+    notify:
+      triggerMaterials: [ORANGE_STAINED_GLASS, LAVA_BUCKET, FIREWORK_ROCKET]
+      requirements:
+        ORANGE_STAINED_GLASS: 6
+        LAVA_BUCKET: 2
+        FIREWORK_ROCKET: 1
+
+  # ── 13. 맛있는 식사 ──
+  - id: delicious_meal
+    tag: "맛있는 식사"
+    nameColor: AQUA
+    maxCrafts: 3
+    result:
+      material: COOKED_BEEF
+      amount: 10
+    type: shaped
+    shape: ["MMM", "MCM", "MMM"]
+    ingredients:
+      C: COAL
+    materialChoice:
+      M: [PORKCHOP, BEEF, MUTTON, CHICKEN, RABBIT, COD, SALMON]
+    lore:
+      - "&7조합 후 스테이크 10개를 얻습니다."
+    special: delicious_meal
+    guiPage: 1
+    guiSlot: 24
+    notify:
+      triggerMaterials: [PORKCHOP, BEEF, MUTTON, CHICKEN, RABBIT, COD, SALMON, COAL]
+      requirements:
+        _MEAT: 8
+        COAL: 1
+
+  # ── 14. 강인함의 포션 ──
+  - id: toughness_potion
+    tag: "강인함의 포션"
+    nameColor: LIGHT_PURPLE
+    maxCrafts: 3
+    result:
+      material: POTION
+      amount: 1
+    type: shaped
+    shape: [" S ", " N ", " B "]
+    ingredients:
+      S: SLIME_BALL
+      N: SNOW_BLOCK
+      B: GLASS_BOTTLE
+    potionEffects:
+      - type: RESISTANCE
+        duration: 2400
+        amplifier: 1
+    potionColor: PURPLE
+    enchantments:
+      LUCK_OF_THE_SEA: 1
+    itemFlags: [HIDE_ENCHANTS]
+    lore:
+      - "&7마시면 저항 II 효과를 2분간 얻습니다."
+    guiPage: 1
+    guiSlot: 25
+    notify:
+      triggerMaterials: [SLIME_BALL, SNOW_BLOCK, GLASS_BOTTLE]
+      requirements:
+        SLIME_BALL: 1
+        SNOW_BLOCK: 1
+        GLASS_BOTTLE: 1
+
+  # ── 15. 세븐 리그 부츠 ──
+  - id: seven_league_boots
+    tag: "세븐 리그 부츠"
+    nameColor: AQUA
+    maxCrafts: 1
+    result:
+      material: DIAMOND_BOOTS
+      amount: 1
+    type: shaped
+    shape: ["FEF", "FDF", "FWF"]
+    ingredients:
+      F: FEATHER
+      E: ENDER_PEARL
+      D: DIAMOND_BOOTS
+      W: WATER_BUCKET
+    enchantments:
+      FEATHER_FALLING: 3
+      PROTECTION: 3
+    lore:
+      - "&7다이아부츠 + 가벼운 착지 III + 보호 III"
+    guiPage: 1
+    guiSlot: 28
+    notify:
+      triggerMaterials: [FEATHER, ENDER_PEARL, DIAMOND_BOOTS, WATER_BUCKET]
+      requirements:
+        FEATHER: 6
+        ENDER_PEARL: 1
+        DIAMOND_BOOTS: 1
+        WATER_BUCKET: 1
+
+  # ── 16. 아이언 팩 ──
+  - id: iron_pack
+    tag: "아이언 팩"
+    nameColor: WHITE
+    maxCrafts: 4
+    result:
+      material: IRON_INGOT
+      amount: 10
+    type: shaped
+    shape: ["RRR", "RCR", "RRR"]
+    ingredients:
+      R: RAW_IRON
+      C: COAL
+    lore:
+      - "&7조합 후 철 주괴 10개를 얻습니다."
+    guiPage: 1
+    guiSlot: 29
+    notify:
+      triggerMaterials: [RAW_IRON, COAL]
+      requirements:
+        RAW_IRON: 8
+        COAL: 1
+
+  # ── 17. 흑요석 만들기 ──
+  - id: obsidian_mix
+    tag: "흑요석 만들기"
+    nameColor: DARK_PURPLE
+    maxCrafts: 3
+    result:
+      material: OBSIDIAN
+      amount: 1
+    type: shapeless
+    shapelessIngredients: [WATER_BUCKET, LAVA_BUCKET]
+    lore:
+      - "&7조합 후 흑요석 1개를 얻습니다."
+      - "&7물 양동이 + 용암 양동이 (위치 상관없음)"
+    guiPage: 1
+    guiSlot: 30
+    notify:
+      triggerMaterials: [WATER_BUCKET, LAVA_BUCKET]
+      requirements:
+        WATER_BUCKET: 1
+        LAVA_BUCKET: 1
+
+  # ── 18. 탄헬름 ──
+  - id: tarnhelm
+    tag: "탄헬름"
+    nameColor: AQUA
+    maxCrafts: 3
+    result:
+      material: DIAMOND_HELMET
+      amount: 1
+    type: shaped
+    shape: ["DID", "DRD", "   "]
+    ingredients:
+      D: DIAMOND
+      I: IRON_INGOT
+      R: REDSTONE_BLOCK
+    enchantments:
+      PROTECTION: 1
+      FIRE_PROTECTION: 1
+      AQUA_AFFINITY: 3
+    guiPage: 1
+    guiSlot: 31
+    notify:
+      triggerMaterials: [DIAMOND, IRON_INGOT, REDSTONE_BLOCK]
+      requirements:
+        DIAMOND: 4
+        IRON_INGOT: 1
+        REDSTONE_BLOCK: 1
+
+  # ── 19. 철학자의 곡괭이 ──
+  - id: philosopher_pickaxe
+    tag: "철학자의 곡괭이"
+    nameColor: YELLOW
+    maxCrafts: 1
+    result:
+      material: DIAMOND_PICKAXE
+      amount: 1
+    type: shaped
+    shape: ["IGI", "LSL", " S "]
+    ingredients:
+      I: RAW_IRON
+      G: RAW_GOLD
+      L: LAPIS_BLOCK
+      S: STICK
+    enchantments:
+      FORTUNE: 2
+    damage: 1559
+    lore:
+      - "&7내구도가 2밖에 남지 않았습니다."
+    guiPage: 1
+    guiSlot: 32
+    notify:
+      triggerMaterials: [RAW_IRON, RAW_GOLD, LAPIS_BLOCK, STICK]
+      requirements:
+        RAW_IRON: 2
+        RAW_GOLD: 1
+        LAPIS_BLOCK: 2
+        STICK: 2
+
+  # ── 20. 깨우침의 팩 ──
+  - id: awakening_pack
+    tag: "깨우침의 팩"
+    nameColor: LIGHT_PURPLE
+    maxCrafts: 3
+    result:
+      material: EXPERIENCE_BOTTLE
+      amount: 8
+    type: shaped
+    shape: [" R ", "RBR", " R "]
+    ingredients:
+      R: REDSTONE_BLOCK
+      B: GLASS_BOTTLE
+    lore:
+      - "&7조합 후 경험치병 8개를 얻습니다."
+    guiPage: 1
+    guiSlot: 33
+    notify:
+      triggerMaterials: [REDSTONE_BLOCK, GLASS_BOTTLE]
+      requirements:
+        REDSTONE_BLOCK: 4
+        GLASS_BOTTLE: 1
+
+  # ── 21. 가벼운 모루 ──
+  - id: light_anvil
+    tag: "가벼운 모루"
+    nameColor: WHITE
+    maxCrafts: 3
+    result:
+      material: ANVIL
+      amount: 1
+    type: shaped
+    shape: ["III", " B ", "III"]
+    ingredients:
+      I: IRON_INGOT
+      B: IRON_BLOCK
+    guiPage: 1
+    guiSlot: 34
+    notify:
+      triggerMaterials: [IRON_INGOT, IRON_BLOCK]
+      requirements:
+        IRON_INGOT: 6
+        IRON_BLOCK: 1
+
+  # ── 22. 가벼운 마법 부여대 ──
+  - id: light_enchanting_table
+    tag: "가벼운 마법 부여대"
+    nameColor: LIGHT_PURPLE
+    maxCrafts: 3
+    result:
+      material: ENCHANTING_TABLE
+      amount: 1
+    type: shaped
+    shape: [" B ", "ODO", "OEO"]
+    ingredients:
+      B: BOOKSHELF
+      O: OBSIDIAN
+      D: DIAMOND
+      E: EXPERIENCE_BOTTLE
+    guiPage: 2
+    guiSlot: 10
+    notify:
+      triggerMaterials: [BOOKSHELF, OBSIDIAN, DIAMOND, EXPERIENCE_BOTTLE]
+      requirements:
+        BOOKSHELF: 1
+        OBSIDIAN: 4
+        DIAMOND: 1
+        EXPERIENCE_BOTTLE: 1
+
+  # ── 23. 이브의 유혹 ──
+  - id: eves_temptation
+    tag: "이브의 유혹"
+    nameColor: RED
+    maxCrafts: 3
+    result:
+      material: APPLE
+      amount: 2
+    type: shapeless
+    shapelessIngredients: [APPLE, BONE_MEAL]
+    guiPage: 2
+    guiSlot: 11
+    notify:
+      triggerMaterials: [APPLE, BONE_MEAL]
+      requirements:
+        APPLE: 1
+        BONE_MEAL: 1
+
+  # ── 24. 회복의 과일 ──
+  - id: fruit_of_recovery
+    tag: "회복의 과일"
+    nameColor: AQUA
+    maxCrafts: 3
+    result:
+      material: MELON_SLICE
+      amount: 1
+    type: shaped
+    shape: ["BSB", "SAS", "BSB"]
+    ingredients:
+      B: BONE_MEAL
+      S: WHEAT_SEEDS
+      A: APPLE
+    guiPage: 2
+    guiSlot: 12
+    notify:
+      triggerMaterials: [BONE_MEAL, WHEAT_SEEDS, APPLE]
+      requirements:
+        BONE_MEAL: 4
+        WHEAT_SEEDS: 4
+        APPLE: 1
+
+  # ── 25. 가벼운 사과 ──
+  - id: light_apple
+    tag: "가벼운 사과"
+    nameColor: YELLOW
+    maxCrafts: 1
+    result:
+      material: GOLDEN_APPLE
+      amount: 1
+    type: shaped
+    shape: [" G ", "GAG", " G "]
+    ingredients:
+      G: GOLD_INGOT
+      A: APPLE
+    guiPage: 2
+    guiSlot: 13
+    notify:
+      triggerMaterials: [GOLD_INGOT, APPLE]
+      requirements:
+        GOLD_INGOT: 4
+        APPLE: 1
+
+  # ── 26. 황금 머리 ──
+  - id: golden_head
+    tag: "황금 머리"
+    nameColor: GOLD
+    maxCrafts: 3
+    result:
+      material: PLAYER_HEAD
+      amount: 1
+    type: shaped
+    shape: ["GGG", "GHG", "GGG"]
+    ingredients:
+      G: GOLD_INGOT
+      H: PLAYER_HEAD
+    lore:
+      - "&7우클릭 시 즉시 발동:"
+      - "&b흡수 I (2:00)"
+      - "&b재생 II (0:05)"
+    special: golden_head
+    guiPage: 2
+    guiSlot: 14
+    notify:
+      triggerMaterials: [GOLD_INGOT, PLAYER_HEAD]
+      requirements:
+        GOLD_INGOT: 8
+        PLAYER_HEAD: 1
+
+  # ── 27. 화살 절약 ──
+  - id: arrow_saving
+    tag: "화살 절약"
+    nameColor: WHITE
+    maxCrafts: 3
+    result:
+      material: ARROW
+      amount: 20
+    type: shaped
+    shape: ["FFF", "SSS", "EEE"]
+    ingredients:
+      F: FLINT
+      S: STICK
+      E: FEATHER
+    lore:
+      - "&7화살 20개"
+    guiPage: 2
+    guiSlot: 15
+    notify:
+      triggerMaterials: [FLINT, STICK, FEATHER]
+      requirements:
+        FLINT: 3
+        STICK: 3
+        FEATHER: 3
+
+  # ── 28. 속도의 포션 ──
+  - id: speed_potion
+    tag: "속도의 포션"
+    nameColor: AQUA
+    maxCrafts: 3
+    result:
+      material: SPLASH_POTION
+      amount: 1
+    type: shapeless
+    shapelessIngredients: [COCOA_BEANS, SUGAR, GLASS_BOTTLE]
+    potionEffects:
+      - type: SPEED
+        duration: 240
+        amplifier: 2
+    lore:
+      - "&7신속 III (12초)"
+      - "&7투척형 물약"
+    guiPage: 2
+    guiSlot: 16
+    notify:
+      triggerMaterials: [COCOA_BEANS, SUGAR, GLASS_BOTTLE]
+      requirements:
+        COCOA_BEANS: 1
+        SUGAR: 1
+        GLASS_BOTTLE: 1
+
+  # ── 29. 화덕 ──
+  - id: blast_oven
+    tag: "화덕"
+    nameColor: GOLD
+    maxCrafts: 3
+    result:
+      material: FURNACE
+      amount: 1
+    type: shaped
+    shape: ["CCC", "COC", "CCC"]
+    ingredients:
+      C: COBBLESTONE
+      O: COAL_BLOCK
+    enchantments:
+      UNBREAKING: 1
+    itemFlags: [HIDE_ENCHANTS]
+    lore:
+      - "&7설치 후 구울 수 있는 아이템을 넣으면"
+      - "&7최대 10개를 즉시 구워줍니다."
+      - "&c한 번 사용 후 파괴됩니다."
+    guiPage: 2
+    guiSlot: 19
+    notify:
+      triggerMaterials: [COBBLESTONE, COAL_BLOCK]
+      requirements:
+        COBBLESTONE: 8
+        COAL_BLOCK: 1
+
+  # ── 30. 빠른 곡괭이 ──
+  - id: fast_pickaxe
+    tag: "빠른 곡괭이"
+    nameColor: GRAY
+    maxCrafts: 3
+    result:
+      material: IRON_PICKAXE
+      amount: 1
+    type: shaped
+    shape: ["III", "CSC", " S "]
+    ingredients:
+      I: RAW_IRON
+      C: COAL
+      S: STICK
+    enchantments:
+      EFFICIENCY: 1
+    lore:
+      - "&7효율 I"
+      - "&7빠른 채광 속도를 제공합니다."
+    guiPage: 3
+    guiSlot: 10
+    notify:
+      triggerMaterials: [RAW_IRON, COAL, STICK]
+      requirements:
+        RAW_IRON: 3
+        COAL: 2
+        STICK: 2
+
+  # ── 31. 골드 팩 ──
+  - id: gold_pack
+    tag: "골드 팩"
+    nameColor: YELLOW
+    maxCrafts: 4
+    result:
+      material: GOLD_INGOT
+      amount: 10
+    type: shaped
+    shape: ["GGG", "GCG", "GGG"]
+    ingredients:
+      G: RAW_GOLD
+      C: COAL
+    lore:
+      - "&7금 주괴 10개"
+    guiPage: 3
+    guiSlot: 11
+    notify:
+      triggerMaterials: [RAW_GOLD, COAL]
+      requirements:
+        RAW_GOLD: 8
+        COAL: 1
+
+  # ── 32. 구리 팩 ──
+  - id: copper_pack
+    tag: "구리 팩"
+    nameColor: GOLD
+    maxCrafts: 4
+    result:
+      material: COPPER_INGOT
+      amount: 10
+    type: shaped
+    shape: ["GGG", "GCG", "GGG"]
+    ingredients:
+      G: RAW_COPPER
+      C: COAL
+    lore:
+      - "&7구리 주괴 10개"
+    guiPage: 3
+    guiSlot: 12
+    notify:
+      triggerMaterials: [RAW_COPPER, COAL]
+      requirements:
+        RAW_COPPER: 8
+        COAL: 1
+
+  # ── 33. 설탕 질주 ──
+  - id: sugar_rush
+    tag: "설탕 질주"
+    nameColor: GREEN
+    maxCrafts: 3
+    result:
+      material: SUGAR_CANE
+      amount: 4
+    type: shaped
+    shape: [" T ", "WSW", "   "]
+    ingredients:
+      W: WHEAT_SEEDS
+      S: SUGAR
+    materialChoice:
+      T: [OAK_SAPLING, SPRUCE_SAPLING, BIRCH_SAPLING, JUNGLE_SAPLING, ACACIA_SAPLING, DARK_OAK_SAPLING, CHERRY_SAPLING, MANGROVE_PROPAGULE]
+    lore:
+      - "&7사탕수수 4개"
+    special: sugar_rush
+    guiPage: 3
+    guiSlot: 13
+    notify:
+      triggerMaterials: [OAK_SAPLING, SPRUCE_SAPLING, BIRCH_SAPLING, JUNGLE_SAPLING, ACACIA_SAPLING, DARK_OAK_SAPLING, CHERRY_SAPLING, WHEAT_SEEDS, SUGAR]
+      requirements:
+        _SAPLING: 1
+        WHEAT_SEEDS: 2
+        SUGAR: 1
+
+  # ── 34. 퓨전 갑옷 ──
+  - id: fusion_armor
+    tag: "퓨전 갑옷"
+    nameColor: AQUA
+    maxCrafts: 1
+    result:
+      material: NETHERITE_CHESTPLATE
+      amount: 1
+    randomResults: [NETHERITE_HELMET, NETHERITE_CHESTPLATE, NETHERITE_LEGGINGS, NETHERITE_BOOTS]
+    type: shapeless
+    shapelessChoices:
+      - group: _DIAMOND_ARMOR
+        count: 5
+    special: fusion_armor
+    enchantments:
+      PROTECTION: 3
+    lore:
+      - "&7보호 III"
+      - "&7랜덤한 네더라이트 방어구"
+    guiPage: 3
+    guiSlot: 14
+    notify:
+      triggerMaterials: [DIAMOND_HELMET, DIAMOND_CHESTPLATE, DIAMOND_LEGGINGS, DIAMOND_BOOTS]
+      requirements:
+        _DIAMOND_ARMOR: 5
+
+  # ── 35. 레비아탄의 가죽 ──
+  - id: leviathan_leather
+    tag: "레비아탄의 가죽"
+    nameColor: DARK_AQUA
+    maxCrafts: 1
+    result:
+      material: DIAMOND_LEGGINGS
+      amount: 1
+    type: shaped
+    shape: ["LWL", "DPD", "L L"]
+    ingredients:
+      L: LAPIS_BLOCK
+      W: WATER_BUCKET
+      D: DIAMOND
+      P: DIAMOND_LEGGINGS
+    enchantments:
+      RESPIRATION: 3
+      PROTECTION: 4
+      DEPTH_STRIDER: 3
+    lore:
+      - "&7호흡 III"
+      - "&7보호 IV"
+      - "&7친수성 III"
+    guiPage: 3
+    guiSlot: 15
+    notify:
+      triggerMaterials: [LAPIS_BLOCK, WATER_BUCKET, DIAMOND, DIAMOND_LEGGINGS]
+      requirements:
+        LAPIS_BLOCK: 4
+        DIAMOND: 2
+        DIAMOND_LEGGINGS: 1
+        WATER_BUCKET: 1
